@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,6 +11,14 @@ export class AppController {
       body['user'],
       body['password'],
     );
+    return accessToken;
+  }
+
+  @Get('getAccessToken')
+  async getAccessToken(@Headers() headers: any) {
+    const authHeader = headers.authorization;
+    console.log(headers);
+    const accessToken = await this.appService.getAccessToken(authHeader);
     return accessToken;
   }
 }
